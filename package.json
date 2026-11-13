@@ -1,0 +1,23 @@
+{
+  "name": "seed-vault-village-platform",
+  "version": "1.0.0",
+  "description": "SEED VAULT — Village Seed Library Management Platform (B.Tech CSE PBL Project)",
+  "scripts": {
+    "server": "node server/server.js",
+    "seed": "node server/scripts/seedDatabase.js",
+    "client": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "start": "node server/server.js"
+  },
+  "keywords": [
+    "seed-vault",
+    "agriculture",
+    "seed-library",
+    "heirloom-preservation",
+    "mern-stack",
+    "pbl-project"
+  ],
+  "author": "Antigravity & B.Tech CSE Team",
+  "license": "ISC"
+}
+
