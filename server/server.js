@@ -60,13 +60,15 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(` 🌱 SEED VAULT Backend Server Running on Port ${PORT}`);
-  console.log(` 📍 API Health: http://localhost:${PORT}/api/health`);
-  console.log(` 📦 Mode: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`=======================================================`);
-});
+if (!process.env.VERCEL) {
+  const server = app.listen(PORT, () => {
+    console.log(`=======================================================`);
+    console.log(` 🌱 SEED VAULT Backend Server Running on Port ${PORT}`);
+    console.log(` 📍 API Health: http://localhost:${PORT}/api/health`);
+    console.log(` 📦 Mode: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`=======================================================`);
+  });
+}
 
 // Graceful rejection handler
 process.on('unhandledRejection', (err) => {
