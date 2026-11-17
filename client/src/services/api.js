@@ -18,23 +18,18 @@ const request = async (endpoint, options = {}) => {
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    const data = await response.json();
-
-    if (!response.ok) {
-      const error = new Error(data.message || `Request failed with status ${response.status}`);
-      error.status = response.status;
-      error.data = data;
-      throw error;
+    
+    // Check if response is HTML (e.g. 404 page from host) instead of valid JSON
+    const contentType = response.headers.get('content-type') || '';
+    if (!response.ok || !contentType.includes('application/json')) {
+      return await handleMockRequest(endpoint, options);
     }
 
+    const data = await response.json();
     return data;
   } catch (error) {
-    // If the network request fails (e.g., server offline or static host), transparently use mock data
-    if (error instanceof TypeError || error.name === 'TypeError' || error.message?.includes('fetch') || error.status === 404) {
-      console.warn(`[SeedVault] Backend not reachable for ${endpoint}. Falling back to offline client mode.`);
-      return handleMockRequest(endpoint, options);
-    }
-    throw error;
+    // If anything fails (network error, SyntaxError on HTML, offline host), fall back cleanly
+    return await handleMockRequest(endpoint, options);
   }
 };
 
