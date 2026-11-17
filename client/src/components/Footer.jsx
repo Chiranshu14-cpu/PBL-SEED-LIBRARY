@@ -92,6 +92,11 @@ export const Footer = ({ navigate }) => {
                   🏆 Seed Guardian Gamification
                 </button>
               </li>
+              <li>
+                <button onClick={() => navigate('feedback')} style={footerLinkStyle}>
+                  💬 Community Feedback & Reviews
+                </button>
+              </li>
             </ul>
           </div>
 

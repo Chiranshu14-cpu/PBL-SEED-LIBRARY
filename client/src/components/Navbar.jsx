@@ -199,6 +199,13 @@ export const Navbar = ({ currentRoute, navigate }) => {
           >
             {t('navPoints')}
           </button>
+
+          <button
+            onClick={() => handleNav('feedback')}
+            style={navItemStyle(currentRoute === 'feedback')}
+          >
+            {t('navFeedback')}
+          </button>
         </nav>
 
         {/* Right Action Icons & Controls */}
