@@ -1,3 +1,5 @@
+import { handleMockRequest } from './mockApi';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:5000/api');
 
 const request = async (endpoint, options = {}) => {
@@ -27,7 +29,11 @@ const request = async (endpoint, options = {}) => {
 
     return data;
   } catch (error) {
-    console.error(`[API Error: ${endpoint}]:`, error.message);
+    // If the network request fails (e.g., server offline or static host), transparently use mock data
+    if (error instanceof TypeError || error.name === 'TypeError' || error.message?.includes('fetch') || error.status === 404) {
+      console.warn(`[SeedVault] Backend not reachable for ${endpoint}. Falling back to offline client mode.`);
+      return handleMockRequest(endpoint, options);
+    }
     throw error;
   }
 };
@@ -40,4 +46,3 @@ export const api = {
 };
 
 export default api;
-
